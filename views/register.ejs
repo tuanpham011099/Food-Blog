@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Foodblog | contribute your delicious Recipe</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="/bootstrap/bootstrap.min.css" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.1/css/brands.css">
+
+    <!-- Fonts -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700|Josefin+Sans:300,400,700">
+
+
+
+    <link rel="stylesheet" href="https://cdn.linearicons.com/free/1.0.0/icon-font.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="/owlcarousel/owl.carousel.min.css">
+    <link rel="stylesheet" href="/css/style.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.js"></script>
+    <script>
+        const ERROR = "<%=typeof error!=='undefined'?error:'undefined'%>"
+    </script>
+</head>
+
+<body>
+
+    <div class="boxed-page">
+        <%- include('partials/nav')%>
+
+            <section id="gtco-reservation" class="bg-fixed bg-white section-padding overlay" style="background-image: url(img/reservation-bg.jpg); background-repeat: no-repeat; background-size: cover;">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-5">
+                            <div class="section-content bg-white p-5 shadow">
+                                <div class="heading-section text-center">
+                                    <h2>
+                                        Become a member
+                                    </h2>
+                                </div>
+                                <form method="post" action="/registration" autocomplete=off>
+                                    <div class="row">
+                                        <div class="col-md-12 form-group">
+                                            <input type="text" required class="form-control" id="name" name="name" placeholder="Name">
+                                        </div>
+                                        <div class="col-md-12 form-group">
+                                            <input type="text" required class="form-control" id="email" name="email" placeholder="Email">
+                                        </div>
+                                        <div class="col-md-12 form-group">
+                                            <input type="password" required class="form-control" id="pass" name="password" placeholder="Password">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 text-center mt-2">
+                                        <button class="btn btn-primary btn-shadow btn-lg" type="submit" name="submit">Sign Up</button>
+                                    </div>
+                                    <div class="col-md-12 text-center mt-2">
+                                        <a class="underlineBottom" href="/login">Or Login...</a>
+                                    </div>
+                            </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+    </div>
+    </section>
+    <%-include("partials/footer.ejs")%>
+        </div>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
+        <script src="owlcarousel/owl.carousel.min.js"></script>
+        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+        <script src="/js/app.min.js"></script>
+        <script src="/js/register.js"></script>
+
+</body>
+
+</html>

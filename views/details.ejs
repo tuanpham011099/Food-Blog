@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Foodblog | contribute your delicious Recipe</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="/bootstrap/bootstrap.min.css" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.1/css/brands.css">
+
+    <!-- Fonts -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700|Josefin+Sans:300,400,700">
+    <link rel="stylesheet" href="https://cdn.linearicons.com/free/1.0.0/icon-font.min.css">
+    <link rel="stylesheet" href="/css/style.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.js"></script>
+    <script>
+        const username = '<%=typeof username!=="undefined"?username:"no user"%>'
+        const email = '<%=typeof email!=="undefined"?email:"no user"%>'
+        const id = '<%=typeof id!=="undefined"?id:"no user"%>'
+    </script>
+</head>
+
+<body>
+
+    <div class="boxed-page">
+        <%- include('partials/nav',typeof username !=="undefined"&&username,typeof id !=="undefined"&&id)%>
+
+            <section class="bg-fixed bg-white my-3" style="background-image: url(img/153783.jpg); background-repeat: no-repeat; background-size: cover;max-width: 100%;">
+                <div class="container border rounded">
+                    <div class="mx-auto pt-3 text-center">
+                        <h3 class="font-weight-bold text-uppercase">Recipe:</h3>
+                        <p style="font-size: 40px;font-weight: bolder;color: #429fec;">
+                            <%=result.title%>
+                        </p>
+                    </div>
+                    <div class="row my-2 py-2 ">
+                        <div class="col-md-7">
+                            <div class="">
+                                <img src="<%=result.img%>" class="mx-auto" style="width: 100%;height: 50%;object-fit: cover;" alt="">
+                            </div>
+                        </div>
+                        <div class="col-md-5">
+                            <h4>
+                                <%=result.description%>
+                            </h4>
+                        </div>
+                    </div>
+                    <div class="row w-100 border rouned mx-auto">
+                        <div class="col-6">
+                            <label for="" style="font-weight: 900;">Ingredients:</label><br>
+                            <p>
+                                <%=result.ingredients%>
+                            </p>
+                        </div>
+                        <div class="col-6">
+                            <label for="" style="font-weight: 900;">Method:</label>
+                            <p>
+                                <%=result.step%>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="row my-3">
+                        <div class="mx-auto">
+                            <a href="/menu" class="btn btn-secondary">Explore others</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <%-include("partials/footer.ejs")%>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="/js/recipe.js"></script>
+</body>
+
+</html>

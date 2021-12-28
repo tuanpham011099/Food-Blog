@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Foodblog | contribute your delicious Recipe</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="/bootstrap/bootstrap.min.css" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.1/css/brands.css">
+
+    <!-- Fonts -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700|Josefin+Sans:300,400,700">
+    <link rel="stylesheet" href="https://cdn.linearicons.com/free/1.0.0/icon-font.min.css">
+
+    <link rel="stylesheet" href="/css/style.min.css">
+    <script>
+        const username = '<%=typeof username!=="undefined"?username:"no user"%>'
+        const email = '<%=typeof email!=="undefined"?email:"no user"%>'
+        const id = '<%=typeof id!=="undefined"?id:"no user"%>'
+    </script>
+</head>
+
+<body>
+
+    <div class="boxed-page">
+        <%- include('partials/nav',typeof username !=="undefined"&&username,typeof id !=="undefined"&&id)%>
+
+
+
+            <section id="gtco-special-dishes" class="bg-grey section-padding">
+                <div class="container">
+                    <div class="section-content">
+                        <div class="heading-section text-center">
+                            <h2>
+                                Menu
+                            </h2>
+                            <%for(var i = 0;i < recipes.length;i++){%>
+                                <div class="row mt-5">
+                                    <div class="col-lg-5 col-md-6 align-self-center py-5">
+                                        <h2 class="special-number">
+                                            <%=i+1%>
+                                        </h2>
+                                        <div class="dishes-text">
+                                            <h3><span><%=recipes[i].title%></span><br>
+                                            </h3>
+                                            <%if(recipes[i].user !==null){%>
+
+                                                <span style="display: block; ">
+                                                    <i>
+                                                     Post by:  <a href="/user/<%=recipes[i].user._id%>"> <%=recipes[i].user.name%></a>
+                                                   </i>
+                                                </span>
+
+                                                <%}%>
+                                                    <a href="/recipe/<%=recipes[i].title%>-<%=recipes[i]._id%>" class="btn-primary mt-3">View</a>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-5 offset-lg-2 col-md-6 align-self-center mt-4 mt-md-0">
+                                        <img src="<%=recipes[i].img%>" alt="" class="img-fluid shadow w-100 ">
+                                    </div>
+                                </div>
+                                <%}%>
+
+                        </div>
+            </section>
+            <div class="container">
+                <div class="row">
+                    <ul class="pagination mx-auto mt-2">
+                        <li class="page-item mr-2 <%=page<2&&'disabled'%>"><a class="page-link" href="/menu?page=<%=page-1%>">Prev</a></li>
+                        <%for(var j=1; j <= pages;j++){%>
+                            <li class="page-item <%=page==j&&'disabled'%>">
+                                <a class="page-link" href="/menu?page=<%=j%>">
+                                    <%=j%>
+                                </a>
+                            </li>
+                            <%}%>
+                                <li class="page-item ml-2 <%=pages==page&&'disabled'%>"><a class="page-link" href="/menu?page=<%=parseInt(page)+1%>">Next</a></li>
+                    </ul>
+                </div>
+            </div>
+            <hr>
+            <%-include("partials/footer.ejs")%>
+
+                </div>
+
+                <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+                <script src="owlcarousel/owl.carousel.min.js"></script>
+                <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+                <script src="/js/app.min.js"></script>
+                <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+</body>
+
+</html>

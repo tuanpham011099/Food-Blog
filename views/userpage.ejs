@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Foodblog | contribute your delicious Recipe</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="/bootstrap/bootstrap.min.css" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.1/css/brands.css">
+
+    <!-- Fonts -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700|Josefin+Sans:300,400,700">
+
+
+
+    <link rel="stylesheet" href="https://cdn.linearicons.com/free/1.0.0/icon-font.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="/owlcarousel/owl.carousel.min.css">
+    <link rel="stylesheet" href="/css/style.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.js"></script>
+    <script defer>
+        const ERROR = "<%=typeof error!=='undefined'?error:'undefined'%>"
+        const NOTE = "<%=typeof success!=='undefined'?success:'undefined'%>"
+        const username = '<%=typeof user !=="undefined"?user.name:"undefined"%>'
+        const email = '<%=typeof user !=="undefined"?user.email:"undefined"%>'
+        const id = '<%=typeof user !=="undefined"?user._id:"undefined"%>'
+    </script>
+</head>
+
+<body>
+
+    <div class="boxed-page">
+        <%- include('partials/nav',typeof username !=="undefined"&&username,typeof id !=="undefined"&&id)%>
+
+            <section class="bg-fixed bg-white" style="margin-bottom: 50px;background-image: url(img/reservation-bg.jpg); background-repeat: no-repeat; background-size: cover;">
+                <div class="container">
+                    <div class="row w-100">
+                        <div class="col-md-4 mb-2">
+                            <div class="card card-primary">
+                                <div class="card-header">
+
+                                    <h3 class="card-title">
+                                        <%=flag=="1"?'Edit User':"User Infomation"%>
+                                    </h3>
+                                </div>
+                                <form action="/update" method="post">
+                                    <img class="card-img-top" style="width:100%; max-height: 300px;" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/User-avatar.svg/1024px-User-avatar.svg.png" alt="Card image">
+                                    <div class="card-body">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Email address</label>
+                                            <input type="email" class="form-control" value="<%=user.email%>" style="pointer-events: none;" onkeydown="return false" name="email">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Name</label>
+                                            <input type="text" class="form-control" style="pointer-events: none;" onkeydown="return false" value="<%=user.name%>" name="name">
+                                        </div>
+                                        <%if(flag=='1'){%>
+                                            <div class="form-group">
+                                                <label for="password">Password</label>
+                                                <input type="password" class="form-control" id="password" placeholder="Password" name="password">
+                                            </div>
+                                    </div>
+                                    <div class="card-footer d-flex">
+                                        <div>
+                                            <button type="submit" class="btn" style="background-color: rgb(115, 125, 126);">Submit</button>
+                                        </div>
+                                        <div class="ml-auto">
+                                            <a href="/" class="btn btn-danger">Cancel</a>
+                                        </div>
+                                    </div>
+                                    <%}else{%>
+                                        <div class="form-group">
+                                        </div>
+                            </div>
+                            <div class="card-footer d-flex">
+                                <div class="ml-auto">
+                                </div>
+                            </div>
+                            <%}%>
+                                </form>
+                        </div>
+                    </div>
+                    <div class="col-md-8" style="max-width: 100%;overflow-y: scroll; max-height: 500px;">
+                        <div class="w-100">
+                            <a href="/recipe" class="btn btn-info ml-auto">Add new</a>
+                        </div>
+
+                        <%if(recipes.length>0){%>
+                            <%for(var l=0;l < recipes.length;l++){%>
+                                <div class="card card-widget">
+                                    <div class="card-body" style="display: block;">
+                                        <h4>
+                                            <a href="">
+                                                <%=recipes[l].title%>
+                                            </a>
+                                        </h4>
+                                        <div class="attachment-block clearfix mb-2 d-flex">
+                                            <div class="w-100">
+                                                <img class="attachment-img" style="max-width: 100%;max-height: 200px;" src="<%=recipes[l].img%>" class="mw-100" alt="Ảnh">
+                                            </div>
+                                            <div>
+                                                <strong><%=recipes[l].description%></stro>
+                                            </div>
+                                        </div>
+                                        <%if(flag=='1'){%>
+                                            <a href="/recipe/edit/<%=recipes[l].title%>-<%=recipes[l]._id%>" class="btn btn-secondary">Edit</a>
+                                            <a role="button" id="deletebtn" onclick="deleteRecipe('<%=recipes[l]._id%>')" class="btn btn-danger">Delete</a>
+                                             <a href="/recipe/<%=recipes[l].title%>-<%=recipes[l]._id%>" class="btn btn-info">view</a>
+
+                                            <%}else{%>
+                                                <a href="/recipe/<%=recipes[l].title%>-<%=recipes[l]._id%>" class="btn btn-primary">view</a>
+                                                <%}%>
+                                                
+                                    </div>
+                                </div>
+                                
+                                <%}%>
+                                    <%}else{%>
+                                        <div class="text-center">
+                                            <h4>It seems there is no recipe here !!!</h4>
+                                            <a href="/recipe" class="btn btn-info">Add new</a>
+                                        </div>
+                                        <%}%>
+                    </div>
+                </div>
+
+    </div>
+
+    </div>
+    </section>
+    <%-include("partials/footer.ejs")%>
+        </div>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+        <script>
+            let hehe = document.querySelector("#hehe");
+            let hihi = document.querySelector("#hihi");
+            if (window.location.href.indexOf("/user/")) {
+                hehe.style.display = "none";
+                hihi.style.display = "none";
+            }
+            let deletebtn = document.getElementById("deletebtn");
+
+            function deleteRecipe(id) {
+                console.log(id)
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: "You won't be able to revert this!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, delete it!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = `/delete/${id}`
+                    }
+                })
+            }
+        </script>
+        <script src="/js/login.js"></script>
+</body>
+
+</html>

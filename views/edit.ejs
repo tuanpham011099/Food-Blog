@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Foodblog | contribute your delicious Recipe</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="/bootstrap/bootstrap.min.css" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.1/css/brands.css">
+
+    <!-- Fonts -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700|Josefin+Sans:300,400,700">
+    <link rel="stylesheet" href="https://cdn.linearicons.com/free/1.0.0/icon-font.min.css">
+    <link rel="stylesheet" href="/css/style.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.js"></script>
+    <script>
+        const username = '<%=typeof username!=="undefined"?username:"no user"%>'
+        const email = '<%=typeof email!=="undefined"?email:"no user"%>'
+        const id = '<%=typeof id!=="undefined"?id:"no user"%>'
+        const ERROR = "<%=typeof msg!=='undefined'?msg:'undefined'%>"
+    </script>
+</head>
+
+<body>
+
+    <div class="boxed-page">
+        <%- include('partials/nav')%>
+
+            <section class="bg-fixed bg-white my-3" style="background-image: url(img/153783.jpg); background-repeat: no-repeat; background-size: cover;max-width: 100%;">
+                <div class="container">
+                    <div class="mx-auto pt-3 text-center">
+                        <h1>Edit recipe</h1>
+                    </div>
+                    <form action="/update-recipe" method="post" id="frm" onsubmit="myTimeout()" class="w-100" enctype="multipart/form-data">
+                        <div class="row mt-2 py-1" style="height: 100%;">
+                            <input type="text" required style="pointer-events: none;" hidden onkeydown="return false" name="id" value="<%=result._id%>">
+                            <div class="col-md-6">
+                                <label for="" class="mx-auto labell"><h4>Title</h4></label>
+                                <!-- <input type="text" required class="form-control" name="title" value=""> -->
+                                <textarea name="title" id="" class="form-control" cols="1" rows="1"><%=result.title%></textarea>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="" class="mx-auto labell"><h4>Description</h4></label>
+                                <!-- <input type="text" required class="form-control" name="description" value=""> -->
+                                <textarea name="description" class="form-control" id="" cols="1" rows="1"><%=result.description%></textarea>
+
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label for="" class="mx-auto labell"><h4>Ingredients:</h4></label>
+                                <textarea name="ingredients" required class="form-control" rows="10"><%=result.ingredients%></textarea>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div>
+                                        <label for="" class="labell "> <h4>Preview image</h4></label><br>
+                                    </div>
+                                    <div>
+                                        <img alt="description image" id="output" style="max-width: 400px;">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <input type="file" required class="form-control mt-3" onchange="loadFile(event)" name="image" accept="image/*">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row py-1">
+                            <label for="" class="labell"><h4>Method:</h4></label>
+                            <textarea name="step" id="" cols="30" rows="10" class="form-control"><%=result.step%></textarea>
+                        </div>
+                        <div class="row justify-content-center">
+                            <button class="btn btn-primary mt-3" id="addNew">Update</button>
+                        </div>
+                    </form>
+
+                </div>
+                <hr>
+            </section>
+            <script>
+                var loadFile = function(event) {
+                    var output = document.getElementById('output');
+                    output.src = URL.createObjectURL(event.target.files[0]);
+                    output.onload = function() {
+                        URL.revokeObjectURL(output.src)
+                    }
+                };
+                document.getElementById("frm");
+                const myTimeout = function() {
+                    document.getElementById('addNew').setAttribute("disabled", true);
+
+                    setTimeout(function() {
+                        document.getElementById("addNew").setAttribute('disabled', false);
+                    }, 100000);
+                }
+            </script>
+            <%-include("partials/footer.ejs")%>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="/js/recipe.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Title</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script>
+        const ERROR = "<%=typeof msg!=='undefined'?msg:'undefined'%>"
+    </script>
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 mx-auto border rounded" style="margin-top: 150px;padding: 20px;box-shadow: 0px 0px 20px 0px rgba(0,0,0,0.53);">
+                <h3>Admin login</h3>
+                <hr>
+                <form action="/admin/login" method="post">
+                    <div class="form-group">
+                        <label for="">Email:</label>
+                        <input type="text" name="" id="" class="form-control" placeholder="" aria-describedby="helpId">
+                    </div>
+                    <div class="form-group">
+                        <label for="">Password</label>
+                        <input type="password" name="" id="" class="form-control" placeholder="" aria-describedby="helpId">
+                    </div>
+                    <hr>
+                    <div class="form-group">
+                        <button type="submit" class="form-control" style="color: rgb(196, 192, 192);font-weight: bold;font-size: 30px; background-color: rgb(78, 78, 78);">Login</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="/js/login.js"></script>
+</body>
+
+</html>
