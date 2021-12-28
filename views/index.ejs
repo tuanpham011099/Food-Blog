@@ -69,55 +69,57 @@
                                 Latest receipt
                             </h2>
                         </div>
-                        <div class="row mt-5">
-                            <div class="col-lg-5 col-md-6 align-self-center py-5">
-                                <h2 class="special-number">01.</h2>
-                                <div class="dishes-text">
-                                    <h3><span><%=products[0].title%></span></h3>
-                                    <%if(products[0].user !==null){%>
-                                        <p>
-                                            <%typeof products[1].description!=='undefined'?products[1].description:""%>
-                                        </p>
-                                        <span style="display: block; ">
+                        <%if(typeof products[0] !=='undefined'){%>
+                            <div class="row mt-5">
+                                <div class="col-lg-5 col-md-6 align-self-center py-5">
+                                    <h2 class="special-number">01.</h2>
+                                    <div class="dishes-text">
+                                        <h3><span><%=products[0].title%></span></h3>
+                                        <%if(products[0].user !==null){%>
+                                            <p>
+                                                <%typeof products[1].description!=='undefined'?products[1].description:""%>
+                                            </p>
+                                            <span style="display: block; ">
                                                     <i>
                                                      Post by:  <a href="/user/<%=products[0].user._id%>"> <%=products[0].user.name%></a>
                                                    </i>
                                                 </span>
 
-                                        <%}%>
+                                            <%}%>
 
 
-                                            <a href="/recipe/<%=products[0].title%>-<%=products[0].id%>" class="btn-primary mt-3">View</a>
+                                                <a href="/recipe/<%=products[0].title%>-<%=products[0].id%>" class="btn-primary mt-3">View</a>
+                                    </div>
+                                </div>
+                                <div class="col-lg-5 offset-lg-2 col-md-6 align-self-center mt-4 mt-md-0">
+                                    <img src="<%=products[0].img%>" alt="<%=products[0].title%>" class="img-fluid shadow w-100">
                                 </div>
                             </div>
-                            <div class="col-lg-5 offset-lg-2 col-md-6 align-self-center mt-4 mt-md-0">
-                                <img src="<%=products[0].img%>" alt="<%=products[0].title%>" class="img-fluid shadow w-100">
-                            </div>
-                        </div>
-                        <div class="row mt-5">
-                            <div class="col-lg-5 col-md-6 align-self-center order-2 order-md-1 mt-4 mt-md-0">
-                                <img src="<%=products[1].img%>" alt="<%=products[1].title%>" class="img-fluid shadow w-100">
-                            </div>
-                            <div class="col-lg-5 offset-lg-2 col-md-6 align-self-center order-1 order-md-2 py-5">
-                                <h2 class="special-number">02.</h2>
-                                <div class="dishes-text">
-                                    <h3><span><%=products[1].title%></span></h3>
-                                    <%if(products[1].user !==null){%>
-                                        <p>
-                                            <%typeof products[1].description!=='undefined'?products[1].description:""%>
-                                        </p>
-                                        <span style="display: block; ">
+                            <div class="row mt-5">
+                                <div class="col-lg-5 col-md-6 align-self-center order-2 order-md-1 mt-4 mt-md-0">
+                                    <img src="<%=products[1].img%>" alt="<%=products[1].title%>" class="img-fluid shadow w-100">
+                                </div>
+                                <div class="col-lg-5 offset-lg-2 col-md-6 align-self-center order-1 order-md-2 py-5">
+                                    <h2 class="special-number">02.</h2>
+                                    <div class="dishes-text">
+                                        <h3><span><%=products[1].title%></span></h3>
+                                        <%if(products[1].user !==null){%>
+                                            <p>
+                                                <%typeof products[1].description!=='undefined'?products[1].description:""%>
+                                            </p>
+                                            <span style="display: block; ">
                                                     <i>
                                                      Post by:  <a href="/user/<%=products[1].user._id%>"> <%=products[1].user.name%></a>
                                                    </i>
                                                 </span>
 
-                                        <%}%>
+                                            <%}%>
 
-                                            <a href="/recipe/<%=products[1].title%>-<%=products[1].id%>" class="btn-primary mt-3">View<span><i class="fa fa-long-arrow-right"></i></span></a>
+                                                <a href="/recipe/<%=products[1].title%>-<%=products[1].id%>" class="btn-primary mt-3">View<span><i class="fa fa-long-arrow-right"></i></span></a>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                            <%}%>
                     </div>
                 </div>
             </section>
