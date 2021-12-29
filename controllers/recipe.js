@@ -147,7 +147,6 @@ const recipeRoutes = (app) => {
         let { id, title, description, ingredients, step } = req.body;
         console.log(id, title, description, ingredients, step);
         if (!mongoose.Types.ObjectId.isValid(id)) {
-            req.flash("error", "Please don't change the id");
             return res.redirect("/edit");
         }
         if (!title) {

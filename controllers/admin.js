@@ -3,11 +3,11 @@ const bcryptjs = require("bcryptjs");
 const User = require("../models/user");
 const Recipe = require("../models/recipe");
 const cloudinary = require("cloudinary").v2;
-const Auth = require("../middleware/adminAuth");
+const auth = require("../middleware/adminAuth");
 
 const adminRoutes = (app, passport) => {
-    app.get("/admin", Auth, async(req, res) => {
-        return res.render("admin/index", { username: req.user.name, email: req.user.email, id: req.user.id, products });
+    app.get("/admin", auth, async(req, res) => {
+        return res.render("admin/index", { username: req.user.name, email: req.user.email, id: req.user.id, avatar: req.user.avatar });
     });
     app.get("/admin/login", (req, res) => {
         if (req.isAuthenticated())
@@ -16,44 +16,57 @@ const adminRoutes = (app, passport) => {
             return res.render("admin/login", { msg: req.flash('error') });
         res.render("admin/login");
     });
-    app.get("/logout", (req, res) => {
-        req.logOut();
-        res.redirect("/");
-    });
-    app.get("/admin/users", Auth, async(req, res) => {
+    app.get("/admin/users", auth, async(req, res) => {
         let page = 1;
         if (req.query.page) {
             page = req.query.page;
         }
         let users;
+        try {
+            users = await User.paginate({}, { page, limit: 6, sort: { $natural: -1 } })
+            res.render("admin/users", { username: req.user.name, email: req.user.email, id: req.user.id, avatar: req.user.avatar, users: users.docs, page: users.page, pages: users.pages })
+        } catch (error) {
+            res.render("admin/users", { error });
+        }
+    });
+    app.get("/admin/recipes", auth, async(req, res) => {
+        let page = 1;
+        if (req.query.page) {
+            page = req.query.page;
+        }
+        let recipes;
+        try {
+            recipes = await Recipe.paginate({}, { page, limit: 5, populate: { path: 'user', select: 'name _id' }, sort: { $natural: -1 } });
+            res.render("admin/recipes", { username: req.user.name, email: req.user.email, id: req.user.id, avatar: req.user.avatar, recipes: recipes.docs, page: recipes.page, pages: recipes.pages });
+        } catch (error) {
+            res.render("admin/recipes", { error });
+        }
+
+    });
+    app.get("/admin/delete/:id", auth, (req, res) => {
+        let { id } = req.params;
         if (!mongoose.Types.ObjectId.isValid(id)) {
-            return res.render("404");
+            return res.redirect('/admin/users');
         }
-        try {
-            users = await User.paginate({}, { page, limit: 5, sort: { $natural: -1 } })
-            res.render("admin/index", { users });
-        } catch (error) {
-            res.render("admin/index", { error });
-        }
-
+        User.findOneAndRemove({ _id: id }).then(() => {
+            return res.redirect("/admin/users");
+        }).catch(error => {
+            return res.redirect('/admin/users');
+        });
     });
-    app.get("/admin/recipes", Auth, (req, res) => {
 
+    app.get("/admin/delete/recipe/:id", auth, (req, res) => {
+        let { id } = req.params;
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            return res.redirect('/admin/recipes');
+        }
+        Recipe.findOneAndRemove({ _id: id }).then(() => {
+            return res.redirect("/admin/recipes");
+        }).catch(error => {
+            return res.redirect('/admin/recipes');
+        });
     })
-    app.post("/admin/update", Auth, async(req, res) => {
-        let { password, email } = req.body;
-        if (!password)
-            return res.render("userpage", { error });
-        let hashed = await bcryptjs.hash(password, 13);
-        try {
-            await User.findOneAndUpdate({ _id: req.user._id, email }, { password: hashed });
-        } catch (error) {
-            return res.render("admin/index", { error });
-        }
-        req.flash("success", "Password change, please login again");
-        req.logOut();
-        res.redirect("/admin/login");
-    });
+
     app.post("/admin/login", passport.authenticate('local', { failureRedirect: "/admin/login", failureFlash: true }), (req, res) => {
         res.redirect("/admin");
     });

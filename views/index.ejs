@@ -69,7 +69,7 @@
                                 Latest receipt
                             </h2>
                         </div>
-                        <%if(typeof products[0] !=='undefined'){%>
+                        <%if(typeof products[0] !=='undefined' &&typeof products[1] !=='undefined'){%>
                             <div class="row mt-5">
                                 <div class="col-lg-5 col-md-6 align-self-center py-5">
                                     <h2 class="special-number">01.</h2>
@@ -79,7 +79,7 @@
                                             <p>
                                                 <%typeof products[1].description!=='undefined'?products[1].description:""%>
                                             </p>
-                                            <span style="display: block; ">
+                                            <span style="display: block;">
                                                     <i>
                                                      Post by:  <a href="/user/<%=products[0].user._id%>"> <%=products[0].user.name%></a>
                                                    </i>

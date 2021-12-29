@@ -85,6 +85,9 @@
                     <div class="col-md-8" style="max-width: 100%;overflow-y: scroll; max-height: 500px;">
                         <div class="w-100">
                             <a href="/recipe" class="btn btn-info ml-auto">Add new</a>
+                            <%if(user.is_admin==true){%>
+                                <a href="/admin" class="btn btn-danger mr-auto">Go to admin page</a>
+                                <%}%>
                         </div>
 
                         <%if(recipes.length>0){%>
@@ -120,7 +123,7 @@
                                     <%}else{%>
                                         <div class="text-center">
                                             <h4>It seems there is no recipe here !!!</h4>
-                                            <a href="/recipe" class="btn btn-info">Add new</a>
+                                            
                                         </div>
                                         <%}%>
                     </div>
