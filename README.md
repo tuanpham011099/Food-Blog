@@ -16,6 +16,6 @@ If you need to access to admin page, you must have admin account. Follow these s
   <li>4. Find your account in 'user' model</li>
   <li>5. Change field "is_admin" to true, if you dont see it, then create a new one</li>
   <li>6. Now you can go back and access admin page</li>
-  <li>Good luck. If you have problem, contact me through this link: <a href='https://www.facebook.com/profile.php?id=100014043016988'>This is my FB</a></li>
+  <li>Good luck. If you have problem, contact me through this link: <a href='https://www.facebook.com/profile.php?id=100014043016988' target='_blank'>This is my FB</a></li>
 </ul>
 <strong>Version: <i>1.0.0</i></strong>
