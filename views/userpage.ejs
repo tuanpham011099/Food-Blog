@@ -45,34 +45,37 @@
                                         <%=flag=="1"?'Edit User':"User Infomation"%>
                                     </h3>
                                 </div>
-                                <form action="/update" method="post">
-                                    <img class="card-img-top" style="width:100%; max-height: 300px;" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/User-avatar.svg/1024px-User-avatar.svg.png" alt="Card image">
-                                    <div class="card-body">
-                                        <div class="form-group">
-                                            <label for="exampleInputEmail1">Email address</label>
-                                            <input type="email" class="form-control" value="<%=user.email%>" style="pointer-events: none;" onkeydown="return false" name="email">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="exampleInputEmail1">Name</label>
-                                            <input type="text" class="form-control" style="pointer-events: none;" onkeydown="return false" value="<%=user.name%>" name="name">
-                                        </div>
-                                        <%if(flag=='1'){%>
-                                            <div class="form-group">
-                                                <label for="password">Password</label>
-                                                <input type="password" class="form-control" id="password" placeholder="Password" name="password">
+                                <form action="/update" method="post" enctype="multipart/form-data">
+                                    <img class="card-img-top mx-auto" id="output" style="width:100%; max-height: 300px;" src="<%=user.avatar%>" alt="<%=user.name%>">
+                                    <%if(flag=='1'){%>
+                                        <input type="file" accept="image/*" name="image" onchange="loadfile(event)" class="mt-2">
+                                        <%}%>
+                                            <div class="card-body">
+                                                <div class="form-group">
+                                                    <label for="exampleInputEmail1">Email address</label>
+                                                    <input type="email" class="form-control" value="<%=user.email%>" style="pointer-events: none;" onkeydown="return false" name="email">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="exampleInputEmail1">Name</label>
+                                                    <input type="text" class="form-control" style="pointer-events: none;" onkeydown="return false" value="<%=user.name%>" name="name">
+                                                </div>
+                                                <%if(flag=='1'){%>
+                                                    <div class="form-group">
+                                                        <label for="password">Password</label>
+                                                        <input type="password" class="form-control" id="password" placeholder="Password" name="password">
+                                                    </div>
                                             </div>
-                                    </div>
-                                    <div class="card-footer d-flex">
-                                        <div>
-                                            <button type="submit" class="btn" style="background-color: rgb(115, 125, 126);">Submit</button>
-                                        </div>
-                                        <div class="ml-auto">
-                                            <a href="/" class="btn btn-danger">Cancel</a>
-                                        </div>
-                                    </div>
-                                    <%}else{%>
-                                        <div class="form-group">
-                                        </div>
+                                            <div class="card-footer d-flex">
+                                                <div>
+                                                    <button type="submit" class="btn" style="background-color: rgb(115, 125, 126);">Submit</button>
+                                                </div>
+                                                <div class="ml-auto">
+                                                    <a href="/" class="btn btn-danger">Cancel</a>
+                                                </div>
+                                            </div>
+                                            <%}else{%>
+                                                <div class="form-group">
+                                                </div>
                             </div>
                             <div class="card-footer d-flex">
                                 <div class="ml-auto">
@@ -85,7 +88,7 @@
                     <div class="col-md-8" style="max-width: 100%;overflow-y: scroll; max-height: 500px;">
                         <div class="w-100">
                             <a href="/recipe" class="btn btn-info ml-auto">Add new</a>
-                            <%if(user.is_admin==true){%>
+                            <%if(user.is_admin==true&&flag=="1"){%>
                                 <a href="/admin" class="btn btn-danger mr-auto">Go to admin page</a>
                                 <%}%>
                         </div>
@@ -108,12 +111,12 @@
                                             </div>
                                         </div>
                                         <%if(flag=='1'){%>
-                                            <a href="/recipe/edit/<%=recipes[l].title%>-<%=recipes[l]._id%>" class="btn btn-secondary">Edit</a>
+                                            <a href="/recipe/edit/<%=recipes[l].title%>.<%=recipes[l]._id%>" class="btn btn-secondary">Edit</a>
                                             <a role="button" id="deletebtn" onclick="deleteRecipe('<%=recipes[l]._id%>')" class="btn btn-danger">Delete</a>
-                                             <a href="/recipe/<%=recipes[l].title%>-<%=recipes[l]._id%>" class="btn btn-info">view</a>
+                                             <a href="/recipe/<%=recipes[l].title%>.<%=recipes[l]._id%>" class="btn btn-info">view</a>
 
                                             <%}else{%>
-                                                <a href="/recipe/<%=recipes[l].title%>-<%=recipes[l]._id%>" class="btn btn-primary">view</a>
+                                                <a href="/recipe/<%=recipes[l].title%>.<%=recipes[l]._id%>" class="btn btn-primary">view</a>
                                                 <%}%>
                                                 
                                     </div>
@@ -133,8 +136,8 @@
 
     </div>
     </section>
-    <%-include("partials/footer.ejs")%>
-        </div>
+</div>
+<%-include("partials/footer.ejs")%>
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
@@ -164,6 +167,14 @@
                         window.location.href = `/delete/${id}`
                     }
                 })
+            }
+            
+            let avatar = document.getElementById("output");
+            function loadfile(event){
+                avatar.src = URL.createObjectURL(event.target.files[0]);
+                avatar.onload = function(){
+                    URL.revokeObjectURL(avatar.src);
+                }
             }
         </script>
         <script src="/js/login.js"></script>

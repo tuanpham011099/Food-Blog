@@ -29,7 +29,7 @@
                                     <div class="card card-widget">
                                         <div class="card-body" style="display: block;">
                                             <h4>
-                                                <a href="/recipe/<%=recipes[l].title%>-<%=recipes[l].id%>">
+                                                <a href="/recipe/<%=recipes[l].title%>.<%=recipes[l].id%>">
                                                     <%=recipes[l].title%>
                                                 </a>
                                             </h4>
@@ -52,7 +52,7 @@
                                             </div>
                                         </div>
                                                     <a role="button" id="deletebtn" onclick="deleteRecipe('<%=recipes[l]._id%>')" class="btn btn-danger">Delete</a>
-                                            <a href="/recipe/<%=recipes[l].title%>-<%=recipes[l]._id%>" class="btn btn-info">view</a>                                                
+                                            <a href="/recipe/<%=recipes[l].title%>.<%=recipes[l]._id%>" class="btn btn-info">view</a>                                                
                                     </div>
                                 </div>
                             </div>

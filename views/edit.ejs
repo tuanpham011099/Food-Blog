@@ -13,7 +13,6 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700|Josefin+Sans:300,400,700">
     <link rel="stylesheet" href="https://cdn.linearicons.com/free/1.0.0/icon-font.min.css">
     <link rel="stylesheet" href="/css/style.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.js"></script>
     <script>
         const username = '<%=typeof username!=="undefined"?username:"no user"%>'
         const email = '<%=typeof email!=="undefined"?email:"no user"%>'
@@ -32,71 +31,99 @@
                     <div class="mx-auto pt-3 text-center">
                         <h1>Edit recipe</h1>
                     </div>
-                    <form action="/update-recipe" method="post" id="frm" onsubmit="myTimeout()" class="w-100" enctype="multipart/form-data">
-                        <div class="row mt-2 py-1" style="height: 100%;">
-                            <input type="text" required style="pointer-events: none;" hidden onkeydown="return false" name="id" value="<%=result._id%>">
-                            <div class="col-md-6">
-                                <label for="" class="mx-auto labell"><h4>Title</h4></label>
-                                <!-- <input type="text" required class="form-control" name="title" value=""> -->
-                                <textarea name="title" id="" class="form-control" cols="1" rows="1"><%=result.title%></textarea>
-                            </div>
-                            <div class="col-md-6">
-                                <label for="" class="mx-auto labell"><h4>Description</h4></label>
-                                <!-- <input type="text" required class="form-control" name="description" value=""> -->
-                                <textarea name="description" class="form-control" id="" cols="1" rows="1"><%=result.description%></textarea>
+                    <!-- <form action="/update-recipe" method="post" id="frm" onsubmit="myTimeout()" class="w-100" enctype="multipart/form-data"> -->
+                    <div class="row mt-2 py-1" style="height: 100%;">
+                        <input type="text" required style="pointer-events: none;" id="id" hidden onkeydown="return false" name="id" value="<%=result._id%>">
+                        <div class="col-md-6">
+                            <label for="" class="mx-auto labell"><h4>Title</h4></label>
+                            <input name="title" id="title" class="form-control" onchange="inputchange(event)" value="<%=result.title%>">
 
-                            </div>
                         </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <label for="" class="mx-auto labell"><h4>Ingredients:</h4></label>
-                                <textarea name="ingredients" required class="form-control" rows="10"><%=result.ingredients%></textarea>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="row">
-                                    <div>
-                                        <label for="" class="labell "> <h4>Preview image</h4></label><br>
-                                    </div>
-                                    <div>
-                                        <img alt="description image" id="output" style="max-width: 400px;">
-                                    </div>
+                        <div class="col-md-6">
+                            <label for="" class="mx-auto labell"><h4>Description</h4></label>
+                            <!-- <input type="text" required class="form-control" name="description" value=""> -->
+                            <textarea name="description" class="form-control" id="description" onchange="inputchange(event)" cols="1" rows="1"><%=result.description%></textarea>
+
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label for="" class="mx-auto labell"><h4>Ingredients:</h4></label>
+                            <textarea name="ingredients" id="ingredients" required class="form-control" onchange="inputchange(event)" rows="10"><%=result.ingredients%></textarea>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="row">
+                                <div>
+                                    <label for="" class="labell "> <h4>Preview image</h4></label><br>
                                 </div>
-                                <div class="row">
-                                    <input type="file" required class="form-control mt-3" onchange="loadFile(event)" name="image" accept="image/*">
+                                <div>
+                                    <img alt="description image" id="output" src="<%=result.img%>" style="max-width: 400px;">
                                 </div>
                             </div>
+                            <div class="row">
+                                <input type="file" id="files" required class="form-control mt-3" onchange="loadFile(event)" name="image" accept="image/*">
+                            </div>
                         </div>
-                        <div class="row py-1">
-                            <label for="" class="labell"><h4>Method:</h4></label>
-                            <textarea name="step" id="" cols="30" rows="10" class="form-control"><%=result.step%></textarea>
-                        </div>
-                        <div class="row justify-content-center">
-                            <button class="btn btn-primary mt-3" id="addNew">Update</button>
-                        </div>
-                    </form>
+                    </div>
+                    <div class="row py-1">
+                        <label for="" class="labell"><h4>Method:</h4></label>
+                        <textarea name="step" id="step" onchange="inputchange(event)" cols="30" rows="10" class="form-control"><%=result.step%></textarea>
+                    </div>
+                    <div class="row justify-content-center">
+                        <button class="btn btn-primary mt-3" id="addNew" onclick="change()">Update</button>
+                    </div>
+                    <!-- </form> -->
 
                 </div>
                 <hr>
             </section>
-            <script>
-                var loadFile = function(event) {
-                    var output = document.getElementById('output');
-                    output.src = URL.createObjectURL(event.target.files[0]);
-                    output.onload = function() {
-                        URL.revokeObjectURL(output.src)
-                    }
-                };
-                document.getElementById("frm");
-                const myTimeout = function() {
-                    document.getElementById('addNew').setAttribute("disabled", true);
 
-                    setTimeout(function() {
-                        document.getElementById("addNew").setAttribute('disabled', false);
-                    }, 100000);
-                }
-            </script>
             <%-include("partials/footer.ejs")%>
     </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+        var loadFile = function(event) {
+            var output = document.getElementById('output');
+            output.src = URL.createObjectURL(event.target.files[0]);
+            output.onload = function() {
+                URL.revokeObjectURL(output.src)
+            }
+        };
+    </script>
+    <script>
+        let title = document.getElementById('title');
+        let description = document.getElementById('description');
+        let ingredients = document.getElementById("ingredients");
+        let step = document.getElementById("step");
+        let id_recipe = document.getElementById("id");
+        let files = document.getElementById("files");
+        let data = new FormData();
+
+        const myTimeout = function() {
+            document.getElementById('addNew').setAttribute("disabled", true);
+
+            setTimeout(function() {
+                document.getElementById("addNew").setAttribute('disabled', false);
+            }, 1000000);
+        }
+
+        function inputchange(e) {
+            data.append(e.target.name, e.target.value)
+        }
+
+        function change() {
+            myTimeout();
+            data.append("id", id_recipe.value)
+            data.append('image', files.files[0])
+            console.log(data);
+            axios({
+                method: "post",
+                url: "/update-recipe",
+                data
+            }).then(() => window.location = `/user/${id}`)
+        }
+    </script>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>

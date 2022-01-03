@@ -47,7 +47,7 @@ const recipeRoutes = (app) => {
         }
         res.render("menu", { recipes: recipes.docs, page: recipes.page, pages: recipes.pages });
     });
-    app.get("/recipe/:title-:id", async(req, res) => {
+    app.get("/recipe/:title.:id", async(req, res) => {
         let { id, title } = req.params;
 
         if (!mongoose.Types.ObjectId.isValid(id)) {
@@ -66,7 +66,7 @@ const recipeRoutes = (app) => {
         }
         res.render("details", { result });
     });
-    app.get("/recipe/edit/:title-:id", async(req, res) => {
+    app.get("/recipe/edit/:title.:id", async(req, res) => {
         let { id, title } = req.params;
 
         if (!req.isAuthenticated()) {
@@ -109,8 +109,8 @@ const recipeRoutes = (app) => {
             return res.redirect("/login");
         }
         let { step, title, description, ingredients } = req.body;
-        if (!title) {
-            req.flash("error", "Please add the title and the title must more than 6 characters");
+        if (!title || title.indexOf('.')) {
+            req.flash("error", "Please add the title and the title must more than 6 characters and no 'dot'");
             return res.redirect("/recipe");
         }
         if (!req.file) {
@@ -145,37 +145,15 @@ const recipeRoutes = (app) => {
             return res.redirect("/login");
         }
         let { id, title, description, ingredients, step } = req.body;
-        console.log(id, title, description, ingredients, step);
-        if (!mongoose.Types.ObjectId.isValid(id)) {
-            return res.redirect("/edit");
+        let path
+        if (req.file) {
+            path = await uploadImg(req.file.path);
         }
-        if (!title) {
-            req.flash("error", "Please add the title and the title must more than 6 characters");
-            return res.redirect("/edit");
-        }
-        if (!req.file) {
-            req.flash("error", "Please add an image");
-            return res.redirect("/edit");
-        }
-        if (!step) {
-            req.flash("error", "Please tell us how you do it");
-            return res.redirect("/edit");
-        }
-        if (!description) {
-            req.flash("error", "Please tell add description, description must more than 20 characters");
-            return res.redirect("/edit");
-        }
-        if (!ingredients) {
-            req.flash("error", "Please tell add ingredients, ingredients must more than 20 characters");
-            return res.redirect("/edit");
-        }
-        let path = await uploadImg(req.file.path);
-
         try {
-            Recipe.findByIdAndUpdate({ _id: id }, { $set: { step, img: path, title, ingredients, description, user: req.user.id } }, { new: true });
+            await Recipe.findOneAndUpdate({ _id: id }, { $set: { step, img: path, title, ingredients, description } })
         } catch (error) {
             req.flash("error", error);
-            return res.redirect("/edit");
+            return res.redirect("/user/" + req.user.id);
         }
         res.redirect(`/user/${req.user.id}`);
 

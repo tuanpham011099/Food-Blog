@@ -31,8 +31,8 @@ app.use((req, res) => {
     res.status(404).render('404');
 })
 
-mongoose.connect(process.env.DB, {}).then(() => console.log('Connected'))
+mongoose.connect('mongodb://localhost:27017/recipe', {}).then(() => console.log('Connected'))
 
-app.listen(process.env.PORT, () => {
+app.listen(5000, () => {
     console.log("running");
 });

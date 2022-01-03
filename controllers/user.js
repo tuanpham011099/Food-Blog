@@ -3,6 +3,32 @@ const bcryptjs = require("bcryptjs");
 const User = require("../models/user");
 const Recipe = require("../models/recipe");
 const cloudinary = require("cloudinary").v2;
+const path = require("path");
+const multer = require("multer");
+cloudinary.config({
+    api_key: "669723947136336",
+    api_secret: "dXk_r0dtD26ZxgypPIkRu74cfl4",
+    cloud_name: "dw6uxdli0"
+})
+
+const storage = multer.diskStorage({
+    destination: "public/photos",
+    filename: function(req, file, cb) {
+        cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
+    }
+})
+const upload = multer({ storage });
+
+const uploadImg = async(path) => {
+    let res;
+    try {
+        res = await cloudinary.uploader.upload(path);
+        return res.secure_url;
+    } catch (error) {
+        return false;
+    }
+};
+
 
 const userRoutes = (app, passport) => {
     app.get("/", async(req, res) => {
@@ -82,19 +108,23 @@ const userRoutes = (app, passport) => {
         res.redirect("login");
 
     });
-    app.post("/update", async(req, res) => {
+    app.post("/update", upload.single('image'), async(req, res) => {
         if (!req.isAuthenticated())
             return res.redirect("/login");
         let { password, email } = req.body;
+        let path;
+        if (req.file) {
+            path = await uploadImg(req.file.path);
+        }
         if (!password)
             return res.render("userpage", { error });
         let hashed = await bcryptjs.hash(password, 13);
         try {
-            await User.findOneAndUpdate({ _id: req.user._id, email }, { password: hashed });
+            await User.findOneAndUpdate({ _id: req.user._id, email }, { password: hashed, avatar: path });
         } catch (error) {
             return res.render("userpage", { error });
         }
-        req.flash("success", "Password change, please login again");
+        req.flash("success", "Infomation change, please login again");
         req.logOut();
         res.redirect("/login");
     });
