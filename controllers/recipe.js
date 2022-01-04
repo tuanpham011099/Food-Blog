@@ -40,8 +40,12 @@ const recipeRoutes = (app) => {
         if (req.query.page) {
             page = req.query.page;
         }
-        let recipes = await Recipe.paginate({}, { page, limit: 5, populate: { path: 'user', select: 'name _id' }, sort: { $natural: -1 } });
-
+        let recipes;
+        if (req.query.keyword) {
+            recipes = await Recipe.paginate({ title: { $regex: new RegExp(req.query.keyword, 'i') } }, { page, limit: 5, populate: { path: 'user', select: 'name _id' }, sort: { $natural: -1 } });
+        } else {
+            recipes = await Recipe.paginate({}, { page, limit: 5, populate: { path: 'user', select: 'name _id' }, sort: { $natural: -1 } });
+        }
         if (req.user) {
             return res.render("menu", { username: req.user.name, email: req.user.email, id: req.user.id, recipes: recipes.docs, page: recipes.page, pages: recipes.pages });
         }

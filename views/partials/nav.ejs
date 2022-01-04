@@ -33,20 +33,23 @@
                 </a>
             </div>
             <div class="nav d-flex flex-lg-row flex-column">
-
+                <li class="nav-item">
+                    <div class="input-group" id="search-box">
+                        <input class="form-control py-2 border-right-0 border" type="search" id="search-input">
+                        <span class="input-group-append">
+                <div class="input-group-text bg-transparent" style="cursor: pointer;" id="click-search"><i class="fa fa-search"></i></div>
+            </span>
+                    </div>
+                </li>
                 <%if(typeof username !=='undefined'&&typeof id !=='undefined'){%>
-                    <li class="nav-item">
-                        <a class="btn btn-info mr-2" href="/recipe">
-                            New recipe
-                        </a>
-                    </li>
+
                     <li class="nav-item">
                         <a class="btn" style="color:black;border: 1px solid #e0e0e0;" href="/user/<%=id%>">
                             <%=username%>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="btn" href="/logout">Log Out</a>
+                        <a class="btn" href="/logout" style="border: 1px solid rgb(146, 145, 145);"><i class="fas fa-sign-out-alt"></i></a>
                     </li>
 
                     <%}else{%>
@@ -61,3 +64,16 @@
         </div>
     </div>
 </nav>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script>
+    let search_input = document.getElementById("search-input");
+    let search_box = document.getElementById("search-box");
+    let search_btn = document.getElementById("click-search");
+    search_btn.onclick = function() {
+        if (!search_input.value) {
+            window.location.href = "/menu";
+            return;
+        }
+        window.location.href = `/menu?keyword=${search_input.value}`
+    }
+</script>
