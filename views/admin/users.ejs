@@ -9,6 +9,8 @@
 
     <link rel="stylesheet" href="/css/adminlte.min.css">
     <link rel="stylesheet" href="/css/OverlayScrollbars.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -31,9 +33,10 @@
                                                         <%=users[l].name%>
                                                     </a>
                                                 </h4>
-                                                <div class="attachment-block clearfix mb-2 d-flex">
+                                                <div class="clearfix mb-2 d-flex">
                                                     <div class="w-100">
-                                                        <img class="attachment-img" style="max-width: 100%;max-height: 200px;" src="<%=users[l].avatar%>" class="mw-100" alt="Ảnh">
+                                                        <img class="attachment-img" style="max-width: 100%;max-height: 200px;" src="<%=users[l].avatar%>" class="mw-100" alt="avatar">
+
                                                     </div>
                                                 </div>
                                                 <%if(id!==users[l]._id.toString()){%>

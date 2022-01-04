@@ -11,23 +11,41 @@
     <ul class="navbar-nav ml-auto">
         <li class="nav-item">
             <a class="nav-link" data-widget="navbar-search" href="#" role="button">
-                <i class="fas fa-search">search</i>
+                <i class="fas fa-search"></i>
             </a>
             <div class="navbar-search-block">
-                <form class="form-inline">
+                <div class="form-inline">
                     <div class="input-group input-group-sm">
-                        <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
+                        <input class="form-control form-control-navbar" id="keyword-s" type="search" placeholder="Search" aria-label="Search">
                         <div class="input-group-append">
-                            <button class="btn btn-navbar" type="submit">
-                  <i class="fas fa-search">search</i>
-                </button>
+                            <button class="btn btn-navbar" id="click-s">
+                                <i class="fas fa-search"></i>
+                            </button>
                             <button class="btn btn-navbar border-left" type="button" data-widget="navbar-search">
-                  <i class="fas fa-times" style="color: red;">x</i>
-                </button>
+                                <i class="fas fa-times"></i>
+                            </button>
                         </div>
                     </div>
-                </form>
+                </div>
             </div>
         </li>
     </ul>
 </nav>
+<script>
+    let searchBtn = document.getElementById("click-s");
+    let searchKey = document.getElementById("keyword-s");
+    searchBtn.onclick = () => {
+        if (!searchKey.value) {
+            return;
+        } else {
+            if (window.location.href.indexOf("/admin/users") > 1) {
+                window.location.href = `/admin/users?name=${searchKey.value}`
+                return
+            }
+            if (window.location.href.indexOf("/admin/recipes") > 1) {
+                window.location.href = `/admin/recipes?title=${searchKey.value}`
+                return
+            }
+        }
+    }
+</script>

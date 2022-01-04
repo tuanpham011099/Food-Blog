@@ -23,7 +23,7 @@ const adminRoutes = (app, passport) => {
         }
         let users;
         try {
-            users = await User.paginate({}, { page, limit: 6, sort: { $natural: -1 } })
+            users = await User.paginate({ name: { $regex: new RegExp(req.query.name, 'i') } }, { page, limit: 6, sort: { $natural: -1 } })
             res.render("admin/users", { username: req.user.name, email: req.user.email, id: req.user.id, avatar: req.user.avatar, users: users.docs, page: users.page, pages: users.pages })
         } catch (error) {
             res.render("admin/users", { error });
@@ -36,12 +36,11 @@ const adminRoutes = (app, passport) => {
         }
         let recipes;
         try {
-            recipes = await Recipe.paginate({}, { page, limit: 5, populate: { path: 'user', select: 'name _id' }, sort: { $natural: -1 } });
+            recipes = await Recipe.paginate({ title: { $regex: new RegExp(req.query.title, 'i') } }, { page, limit: 5, populate: { path: 'user', select: 'name _id' }, sort: { $natural: -1 } });
             res.render("admin/recipes", { username: req.user.name, email: req.user.email, id: req.user.id, avatar: req.user.avatar, recipes: recipes.docs, page: recipes.page, pages: recipes.pages });
         } catch (error) {
             res.render("admin/recipes", { error });
         }
-
     });
     app.get("/admin/delete/:id", auth, (req, res) => {
         let { id } = req.params;
@@ -54,7 +53,6 @@ const adminRoutes = (app, passport) => {
             return res.redirect('/admin/users');
         });
     });
-
     app.get("/admin/delete/recipe/:id", auth, (req, res) => {
         let { id } = req.params;
         if (!mongoose.Types.ObjectId.isValid(id)) {
@@ -65,6 +63,9 @@ const adminRoutes = (app, passport) => {
         }).catch(error => {
             return res.redirect('/admin/recipes');
         });
+    })
+    app.get("/admin/chat", auth, (req, res) => {
+        res.render("admin/chat", { user: req.user })
     })
 
     app.post("/admin/login", passport.authenticate('local', { failureRedirect: "/admin/login", failureFlash: true }), (req, res) => {
