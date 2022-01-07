@@ -39,10 +39,15 @@
 
                                                     </div>
                                                 </div>
-                                                <%if(id!==users[l]._id.toString()){%>
+                                                <%if(id!==users[l]._id.toString()&&users[l].is_master===false&&is_admin!==users[l].is_admin){%>
                                                     <a role="button" id="deletebtn" onclick="deleteRecipe('<%=users[l]._id%>')" class="btn btn-danger">Delete</a>
                                                     <%}%>
                                                         <a href="/user/<%=users[l]._id%>" class="btn btn-info">view</a>
+                                                        <%if(is_admin===true&&is_master===true&&id!==users[l]._id.toString()){%>
+                                                            <a href="/<%=users[l].is_admin===false?'admin/promote':'admin/demote'%>/<%=users[l].id%>" class="btn <%=users[l].is_admin===false?'btn-primary':'btn-warning'%>">
+                                                                <%=users[l].is_admin===false?'Promote':'Demote'%>
+                                                            </a>
+                                                            <%}%>
                                             </div>
                                         </div>
                                     </div>
@@ -79,6 +84,7 @@
     <script src="/js/jquery.overlayScrollbars.min.js"></script>
     <script src="/js/adminlte.js"></script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="/js/alert.js"></script>
     <script>
         function deleteRecipe(id) {
             console.log(id)

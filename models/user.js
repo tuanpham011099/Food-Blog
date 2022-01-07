@@ -6,7 +6,8 @@ const userModel = new mongoose.Schema({
     email: { type: String, require: true },
     password: { type: String, require: true },
     avatar: { type: String, default: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/User-avatar.svg/1024px-User-avatar.svg.png" },
-    is_admin: { type: Boolean, default: false }
+    is_admin: { type: Boolean, default: false },
+    is_master: { type: Boolean, default: false }
 }, {
     timestamps: true
 });

@@ -35,7 +35,7 @@
                                                     <%=recipes[l].title%>
                                                 </a>
                                             </h4>
-                                            <%if(recipes[l].user._id==id){%>
+                                            <%if(typeof recipes[l].user!=='undefined'&&recipes[l].user._id==id){%>
                                                 <h5>
                                                     <a href="/user/<%=id%>">You</a></h5>
                                                 <%}else{%>

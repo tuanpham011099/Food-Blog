@@ -24,7 +24,7 @@ const adminRoutes = (app, passport) => {
         let users;
         try {
             users = await User.paginate({ name: { $regex: new RegExp(req.query.name, 'i') } }, { page, limit: 6, sort: { $natural: -1 } })
-            res.render("admin/users", { username: req.user.name, email: req.user.email, id: req.user.id, avatar: req.user.avatar, users: users.docs, page: users.page, pages: users.pages })
+            res.render("admin/users", { username: req.user.name, is_admin: req.user.is_admin, is_master: req.user.is_master, email: req.user.email, id: req.user.id, avatar: req.user.avatar, users: users.docs, page: users.page, pages: users.pages })
         } catch (error) {
             res.render("admin/users", { error });
         }
@@ -37,6 +37,7 @@ const adminRoutes = (app, passport) => {
         let recipes;
         try {
             recipes = await Recipe.paginate({ title: { $regex: new RegExp(req.query.title, 'i') } }, { page, limit: 5, populate: { path: 'user', select: 'name _id' }, sort: { $natural: -1 } });
+            // console.log(recipes)
             res.render("admin/recipes", { username: req.user.name, email: req.user.email, id: req.user.id, avatar: req.user.avatar, recipes: recipes.docs, page: recipes.page, pages: recipes.pages });
         } catch (error) {
             res.render("admin/recipes", { error });
@@ -65,12 +66,59 @@ const adminRoutes = (app, passport) => {
         });
     })
     app.get("/admin/chat", auth, (req, res) => {
-        res.render("admin/chat", { user: req.user })
-    })
+        res.render("admin/chat", { user: req.user });
+    });
+    app.get("/admin/promote/:id", auth, async(req, res) => {
+        if (req.user.is_master === false) {
+            return;
+        }
+        let check = mongoose.Types.ObjectId.isValid(req.params.id)
+        if (!check)
+            return;
+        try {
+            await User.findByIdAndUpdate({ _id: req.params.id }, { $set: { is_admin: true } })
+        } catch (error) {
+            return;
+        }
+        res.redirect("/admin/users");
+    });
+    app.get("/admin/demote/:id", auth, async(req, res) => {
+        if (req.user.is_master === false) {
+            return;
+        }
+        let check = mongoose.Types.ObjectId.isValid(req.params.id)
+        if (!check)
+            return;
+        try {
+            await User.findByIdAndUpdate({ _id: req.params.id }, { $set: { is_admin: false } })
 
+        } catch (error) {
+            return;
+        }
+        res.redirect("/admin/users");
+    });
+    app.post("/admin/create/master", async(req, res) => {
+        let { password } = req.body;
+        if (!password) {
+            return res.status(400).json({ error: "Invalid data" });
+        }
+        let userFind = await User.findOne({ is_master: true });
+        if (userFind) {
+            return res.status(400).json({ error: "Master admin already exist" });
+        }
+        let hash = await bcryptjs.hash(password, 13);
+        try {
+            await User.create({ name: "Admin", email: "admin@email.com", password: hash, is_admin: true, is_master: true });
+        } catch (error) {
+            res.status(500).json({ error });
+            return;
+        }
+        res.status(201).json({ msg: "Master Admin created" });
+    });
     app.post("/admin/login", passport.authenticate('local', { failureRedirect: "/admin/login", failureFlash: true }), (req, res) => {
         res.redirect("/admin");
     });
+
 };
 
 module.exports = adminRoutes;
