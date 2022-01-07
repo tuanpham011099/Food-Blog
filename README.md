@@ -7,7 +7,7 @@ Now you can promote a user to admin or demote an admin to user
 You need to have postman, insonomia or others similar api platform
 Send a post request to localhost:<yourport>/admin/create/master with password in body <br>
 ex: <img src='https://res.cloudinary.com/dw6uxdli0/image/upload/v1641568617/Screenshot_1_b8rrtf.png' /> <br>
-<strong>note: admin email: admin@email.com<strong/>
+<strong>note: admin email: admin@email.com<strong/><br>
 <strong>Version: <i>1.1.0</i></strong>
 <hr>
  <hr>
