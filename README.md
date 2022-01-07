@@ -1,5 +1,16 @@
 # Food-Blog
-
+Added master admin to manage all system.
+<hr>
+Now you can promote a user to admin or demote an admin to user
+<hr>
+<strong>How to create master admin<strong/>
+You need to have postman, insonomia or others similar api platform
+Send a post request to localhost:<yourport>/admin/create/master with password in body
+ex: <img src='https://res.cloudinary.com/dw6uxdli0/image/upload/v1641568617/Screenshot_1_b8rrtf.png' />
+<strong>note: admin email: admin@email.com<strong/>
+<strong>Version: <i>1.1.0</i></strong>
+<hr>
+ <hr>
 Website is under development so bugs are expected.
 <hr>
 Some features are not function right
