@@ -9,17 +9,17 @@ cloudinary.config({
     api_key: "669723947136336",
     api_secret: "dXk_r0dtD26ZxgypPIkRu74cfl4",
     cloud_name: "dw6uxdli0"
-})
+});
 
 const storage = multer.diskStorage({
     destination: "public/photos",
-    filename: function(req, file, cb) {
+    filename: function (req, file, cb) {
         cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
     }
-})
+});
 const upload = multer({ storage });
 
-const uploadImg = async(path) => {
+const uploadImg = async (path) => {
     let res;
     try {
         res = await cloudinary.uploader.upload(path);
@@ -29,9 +29,8 @@ const uploadImg = async(path) => {
     }
 };
 
-
 const userRoutes = (app, passport) => {
-    app.get("/", async(req, res) => {
+    app.get("/", async (req, res) => {
         let products = await Recipe.find({}).limit(2).populate({ path: "user", select: "name _id" }).sort({ $natural: -1 }).exec();
         if (req.user) {
             return res.render("index", { username: req.user.name, email: req.user.email, id: req.user.id, products });
@@ -57,7 +56,7 @@ const userRoutes = (app, passport) => {
         req.logOut();
         res.redirect("/");
     });
-    app.get("/user/:id", async(req, res) => {
+    app.get("/user/:id", async (req, res) => {
 
         let { id } = req.params;
         let user;
@@ -87,8 +86,8 @@ const userRoutes = (app, passport) => {
             return res.render("about", { username: req.user.name, email: req.user.email, id: req.user.id });
         }
         res.render("about");
-    })
-    app.post("/registration", async(req, res) => {
+    });
+    app.post("/registration", async (req, res) => {
         if (req.isAuthenticated())
             return res.redirect("/");
         let { email, name, password } = req.body;
@@ -108,7 +107,7 @@ const userRoutes = (app, passport) => {
         res.redirect("login");
 
     });
-    app.post("/update", upload.single('image'), async(req, res) => {
+    app.post("/update", upload.single('image'), async (req, res) => {
         if (!req.isAuthenticated())
             return res.redirect("/login");
         let { password, email } = req.body;
